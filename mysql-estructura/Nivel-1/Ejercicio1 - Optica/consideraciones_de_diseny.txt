@@ -1,0 +1,11 @@
+El ejercicio se ha resuelto tomando las siguientes decisiones de diseño, que deberían ser confirmadas con el cliente que encarga la base de datos.
+
+
+IMPORTANTE: se ha tomado la decisión de que las gafas son por encargo, dado que son muy personalizables y por tanto, cuando la óptica da de alta unas gafas, es porque un cliente ha hecho el encargo, definiendo todas sus características. En consecuencia, no es un producto estandar que se pueda vender a cualquier cliente, sino que cuando se dan de alta se vinculan a un cliente concreto, que es el que las ha encargado y el que las comprará unos días después (cuando se fabriquen y le lleguen a la óptica).
+
+1. Proveedores, Clientes y Empleados se pueden dar de alta en la base de datos de forma independiente, sin tener en cuenta datos de otras tablas. No es necesario hacer una compra a un proveedor para darlo de alta, no es necesario que un cliente haga un encargo o una compra para poder darlo de alta y tampoco es necesario que un empleado haga ventas para poder darlo de alta.
+
+2. Gafas: el alta de unas gafas en la base de datos se puede asimilar a un encargo por parte del cliente, pero este alta NO IMPLICA que automáticamente se hayan realizado la venta (aunque ese debería ser su destino en la mayoría de los casos, siempre se puede dar el caso de discrepancias con la óptica u otros motivos que hagan que al final el cliente no las acabe comprando y se queden en poder de la óptica).
+
+3. Ventas: en un momento posterior al encargo de las gafas por parte del cliente, la óptica recibe las gafas, llama al comprador y un vendedor finaliza la venta. Si se finaliza con éxito, se registran los datos en la tabla ventas. Si no se finaliza la venta (por diversos motivos), las gafas se quedan en poder de la óptica (se podrán consultar en la tabla Gafas o darlas de baja) pero no se registrará nada en la tabla de ventas. Además, dado que en una misma venta se pueden incluir varias gafas, esta tabla debe poder admitir registros en los que la id de venta se pueda repetir con diferentes id de encargos, pero como los encargos son únicos, la id de encargo no se debe poder repetir. Para lograr esto, en esta tabla la clave primaria está compuesta por idVenta + idEncargo, añadiendo la condición de que idEncargo es "unique".
+
